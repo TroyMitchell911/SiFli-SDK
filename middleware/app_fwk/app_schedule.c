@@ -744,17 +744,17 @@ static void app_resume(rt_list_t *app_node)
     rt_list_remove(app_node);
 
     /*2. Pause or stop all app in running_app_list*/
-    if (0 == strcmp(p_main_app_id, run_app->id))
-    {
+    /*if (0 == strcmp(p_main_app_id, run_app->id))*/
+    /*{*/
         /*
          Stop other pages when return to main to reduce memory fragement
         */
 
-        app_sche_d("Stop all app, and return to main app");
-        app_destory_list(&running_app_list);
-        app_destory_list(&suspend_app_list);
-    }
-    else
+        /*app_sche_d("Stop all app, and return to main app");*/
+        /*app_destory_list(&running_app_list);*/
+        /*app_destory_list(&suspend_app_list);*/
+    /*}*/
+    /*else*/
     {
         app_sche_d("Pause all app, and resume to %s app", run_app->id);
         app_set_all_app_all_page_state(page_st_paused);
