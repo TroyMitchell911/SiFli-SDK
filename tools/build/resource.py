@@ -1770,16 +1770,31 @@ cd %CURR_PATH%
 def generate_uart_download_sh(main_env, device, memory,download_list):
     uart_comment = '''#!/bin/bash
 
+# Get the directory of the script
 WORK_PATH=$(dirname "$0")
+
+# Save the current working directory
 CURR_PATH=$(pwd)
+
+# Change to the script's directory
 cd "$WORK_PATH"
+
+# Check if a command-line argument was provided
+if [ -z "$1" ]; then
+  echo "Warning: You can provide the serial port as a command-line argument."
+  read -p "Please input a serial port (e.g. /dev/ttyUSB0): " serial_port
+else:
+  serial_port="$1"
+fi
 
 echo ""
 echo "      Uart Download"
 echo ""
-read -p "please input the serial port (e.g. /dev/ttyUSB0): " input
-echo "$input"
 
+echo "Using serial port: $serial_port"
+
+# Execute the sftool command with the provided serial port
+sftool -p "$serial_port" -c SF32LB52 -m nor write_flash "bootloader/bootloader.bin@0x12010000" "main.bin@0x12020000" "ftab/ftab.bin@0x12000000"
 '''
     
     if os.getenv("LEGACY_ENV"):
